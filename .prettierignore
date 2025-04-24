@@ -1,0 +1,8 @@
+# 忽略以下目录或文件格式化
+node_modules
+dist
+*.cursor
+*.log
+*.lock
+.vscode
+.env

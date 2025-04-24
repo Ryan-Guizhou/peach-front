@@ -1,0 +1,27 @@
+# .cursorignore 文件用于配置 Cursor AI 编程助手在你的项目中忽略某些文件或目录，以避免它读取或索引无关或不希望参与补全的内容，比如构建文件、打包资源、缓存等。
+
+# 忽略 node_modules（包管理器的依赖文件夹）
+node_modules/
+
+# 忽略构建输出目录
+dist/
+build/
+out/
+
+# 忽略临时文件和缓存
+*.log
+*.tmp
+.vscode/
+.idea/
+.cache/
+.env
+.env.*
+
+# 忽略某些自动生成的API文件
+src/api/generated/
+
+# 忽略图片和静态资源（如果你不需要智能补全时参考它们）
+public/assets/
+*.png
+*.jpg
+*.svg

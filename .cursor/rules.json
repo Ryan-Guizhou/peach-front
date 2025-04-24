@@ -1,0 +1,91 @@
+{
+  "name": "Enhanced Vue 3 TypeScript Project Rules | 增强版Vue3项目规范",
+  "description": "Optimized for large-scale projects with route/component differentiation | 针对大型项目优化的路由/组件差异化方案",
+  "model": "gpt-4",
+  "temperature": 0.2,
+  "rules": [
+    {
+      "name": "Directory Structure | 目录结构",
+      "content": "Strict folder hierarchy: src/{views,components,utils}. Views use folder+index.vue pattern, components use folder+PascalCase file. | 严格目录层次：src/{views,components,utils}，路由视图使用文件夹+index.vue模式，普通组件使用文件夹+PascalCase文件"
+    },
+    {
+      "name": "Route Component Naming | 路由组件命名",
+      "content": "Route components MUST be in views/{kebab-case}/index.vue. Example: views/user-profile/index.vue. Never use PascalCase directly in views/. | 路由组件必须放在views/{kebab-case}/index.vue，例如views/user-profile/index.vue，禁止在views/下直接使用PascalCase"
+    },
+    {
+      "name": "Regular Component Naming | 普通组件命名",
+      "content": "Regular components MUST follow components/{kebab-case}/ComponentName.vue pattern. Example: components/rich-editor/RichEditor.vue. | 普通组件必须遵循components/{kebab-case}/组件名.vue模式，例如components/rich-editor/RichEditor.vue"
+    },
+    {
+      "name": "File Naming Matrix | 文件命名矩阵",
+      "content": "1) Folders: kebab-case 2) Vue Components: PascalCase 3) TS/JS files: kebab-case 4) Assets: kebab-case | 1) 文件夹：kebab-case 2) Vue组件：PascalCase 3) TS/JS文件：kebab-case 4) 静态资源：kebab-case"
+    },
+    {
+      "name": "Variable Naming | 变量命名",
+      "content": "Variables/functions: camelCase (userList). Constants: UPPER_CASE (MAX_ITEMS). Types/interfaces: PascalCase (UserData). | 变量/函数：camelCase (userList)，常量：UPPER_CASE (MAX_ITEMS)，类型/接口：PascalCase (UserData)"
+    }
+  ],
+  "preferences": {
+    "project_structure": {
+      "views": {
+        "pattern": "{feature-name}/index.vue",
+        "example": "views/user-management/index.vue",
+        "forbidden": ["UserManagement.vue", "userManagement.vue"]
+      },
+      "components": {
+        "pattern": "{feature-name}/{ComponentName}.vue",
+        "example": "components/data-table/DataTable.vue",
+        "required_siblings": ["utils.ts", "types.ts"]
+      },
+      "utils": {
+        "pattern": "kebab-case.ts",
+        "example": "use-format-date.ts"
+      }
+    },
+    "naming_conventions": {
+      "case_matrix": {
+        "folders": "kebab-case",
+        "vue_files": "PascalCase",
+        "route_entries": "index.vue (fixed)",
+        "test_files": "{component}.spec.ts",
+        "asset_files": "kebab-case"
+      },
+      "special_rules": [
+        "Never repeat component name in folder (Bad: components/UserCard/UserCard.vue)",
+        "Route parameters must reflect in folder names: views/user/[id]/index.vue"
+      ]
+    }
+  },
+  "examples": {
+    "route_component": {
+      "description": "Correct route component structure | 正确的路由组件结构",
+      "content": "// File path: src/views/user-profile/index.vue\n<template>\n  <div>\n    <UserHeader />\n    <!-- Route content -->\n  </div>\n</template>\n\n<script setup lang=\"ts\">\n// Always use named imports for children (English) | 子组件始终使用命名导入(中文)\nimport UserHeader from '@/components/user-header/UserHeader.vue'\n</script>"
+    },
+    "regular_component": {
+      "description": "Correct regular component structure | 正确的普通组件结构",
+      "content": "// File path: src/components/data-table/DataTable.vue\n<template>\n  <a-table :columns=\"columns\" />\n</template>\n\n<script setup lang=\"ts\">\n// Type definition adjacent to component (English) | 类型定义与组件相邻(中文)\ninterface TableColumn {\n  key: string\n  title: string\n}\n\nconst columns = ref<TableColumn[]>([])\n</script>"
+    },
+    "forbidden_patterns": {
+      "description": "Prohibited naming examples | 禁止的命名示例",
+      "content": [
+        "// 错误1: 路由组件直接使用PascalCase\nsrc/views/UserProfile.vue",
+        "// 错误2: 普通组件重复名称\nsrc/components/DataTable/DataTableComponent.vue",
+        "// 错误3: 工具函数使用PascalCase\nsrc/utils/DateFormat.ts"
+      ]
+    }
+    ],
+    "prompts": {
+      "generate_route": "Create a route component in views/{kebab-name}/index.vue with: 1) Route params handling 2) Layout skeleton 3) Lazy loading | 在views/{kebab-name}/index.vue创建路由组件，需包含：1) 路由参数处理 2) 布局骨架 3) 懒加载",
+      "generate_component": "Create a component in components/{kebab-name}/{PascalName}.vue with: 1) Typed props 2) Composition API 3) Associated types file | 在components/{kebab-name}/{PascalName}.vue创建组件，需包含：1) 类型化props 2) 组合式API 3) 关联的类型文件"
+    },
+    "validation_rules": {
+      "auto_fixable": [
+        "Folder names must be kebab-case",
+        "Vue component files must be PascalCase"
+      ],
+      "requires_manual_check": [
+        "Route component must be index.vue",
+        "No duplicate naming in component folders"
+      ]
+    }
+  }
