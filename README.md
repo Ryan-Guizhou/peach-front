@@ -1,10 +1,10 @@
 # Peach Front
 
-基于 Vue 3 + TypeScript + Vite 的现代化前端项目
+基于 Vue 3 + TypeScript + Vite 的智能协同云图库项目
 
 ## 项目简介
 
-Peach Front 是一个基于 Vue 3 的现代化前端项目，采用 TypeScript 进行开发，使用 Vite 作为构建工具。项目采用模块化的开发方式，支持国际化，适合开发企业级应用。
+Peach Front 是一个基于 Vue 3 的智能协同云图库项目，采用 TypeScript 进行开发，使用 Vite 作为构建工具。项目采用模块化的开发方式，支持国际化，适合开发企业级应用。
 
 ## 技术栈
 
@@ -33,24 +33,25 @@ src/
 
 ## 功能特性
 
-- 🚀 基于 Vue 3 + TypeScript + Vite
-- 📦 使用 Pinia 进行状态管理
-- 🌍 支持国际化
-- 🎨 模块化的项目结构
-- 🔧 完善的开发工具链
-- 📱 响应式设计
+- 🚀 基于 Vue 3、TypeScript 和 Vite 搭建
+- 📦 集成 Pinia，高效管理全局状态
+- 🌍 内置 国际化（i18n） 支持
+- 🎨 模块化项目结构，清晰可扩展
+- 🔧 配备完善的 开发工具链，提升开发体验
+- 📱 支持 响应式布局，适配多端设备
+- ✨ 内置 Cursor 配置，可根据项目风格和 AI 编程流程，智能生成符合规范的代码
 
 ## 开发环境要求
 
-- Node.js >= 16.0.0
-- npm >= 7.0.0
+- Node.js >= 20.18.2
+- npm >= 10.8.2
 
 ## 快速开始
 
 1. 克隆项目
 ```bash
-git clone [https://github.com/Ryan-Guizhou/peach-front.git]
-cd peach-front
+git clone [https://github.com/Ryan-Guizhou/peach-picture-front.git]
+cd peach-picture-front
 ```
 
 2. 安装依赖
@@ -86,25 +87,25 @@ npm run build
 ### 开发规范
 
 1. **组件开发**
-   - 使用 TypeScript 编写组件
-   - 遵循 Vue 3 组合式 API 风格
-   - 组件文件使用 PascalCase 命名
-   - 优先使用Ant Desgin Vue 作为全局UI风格
+    - 使用 TypeScript 编写组件
+    - 遵循 Vue 3 组合式 API 风格
+    - 组件文件使用 PascalCase 命名
+    - 优先使用Ant Desgin Vue 作为全局UI风格
 
 2. **状态管理**
-   - 使用 Pinia 进行状态管理
-   - 按模块划分 store
-   - 使用 TypeScript 类型定义
+    - 使用 Pinia 进行状态管理
+    - 按模块划分 store
+    - 使用 TypeScript 类型定义
 
 3. **路由管理**
-   - 使用 Vue Router 进行路由管理
-   - 路由配置集中管理
-   - 支持路由懒加载
+    - 使用 Vue Router 进行路由管理
+    - 路由配置集中管理
+    - 支持路由懒加载
 
 4. **国际化**
-   - 使用 i18n 进行国际化
-   - 支持多语言切换
-   - 按模块划分语言包
+    - 使用 i18n 进行国际化
+    - 支持多语言切换
+    - 按模块划分语言包
 
 ## 部署
 
