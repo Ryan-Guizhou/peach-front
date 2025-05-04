@@ -1,91 +1,175 @@
 {
-  "name": "Enhanced Vue 3 TypeScript Project Rules | 增强版Vue3项目规范",
-  "description": "Optimized for large-scale projects with route/component differentiation | 针对大型项目优化的路由/组件差异化方案",
-  "model": "gpt-4",
-  "temperature": 0.2,
+  "name": "Enterprise Vue 3 + Ant Design Pro Rules | 企业级Vue3规范",
+  "description": "Complete specification for large projects with Ant Design integration | 整合Ant Design的大型项目完整规范",
+  "model": "gpt-4-turbo",
+  "temperature": 0.1,
   "rules": [
     {
-      "name": "Directory Structure | 目录结构",
-      "content": "Strict folder hierarchy: src/{views,components,utils}. Views use folder+index.vue pattern, components use folder+PascalCase file. | 严格目录层次：src/{views,components,utils}，路由视图使用文件夹+index.vue模式，普通组件使用文件夹+PascalCase文件"
+      "name": "Atomic Directory Structure | 原子化目录结构",
+      "content": "Enforce 10-core-directory system with Ant Design baseline. No file type mixing allowed. | 强制10核心目录结构+Ant Design基准，禁止文件类型混合"
     },
     {
-      "name": "Route Component Naming | 路由组件命名",
-      "content": "Route components MUST be in views/{kebab-case}/index.vue. Example: views/user-profile/index.vue. Never use PascalCase directly in views/. | 路由组件必须放在views/{kebab-case}/index.vue，例如views/user-profile/index.vue，禁止在views/下直接使用PascalCase"
-    },
-    {
-      "name": "Regular Component Naming | 普通组件命名",
-      "content": "Regular components MUST follow components/{kebab-case}/ComponentName.vue pattern. Example: components/rich-editor/RichEditor.vue. | 普通组件必须遵循components/{kebab-case}/组件名.vue模式，例如components/rich-editor/RichEditor.vue"
-    },
-    {
-      "name": "File Naming Matrix | 文件命名矩阵",
-      "content": "1) Folders: kebab-case 2) Vue Components: PascalCase 3) TS/JS files: kebab-case 4) Assets: kebab-case | 1) 文件夹：kebab-case 2) Vue组件：PascalCase 3) TS/JS文件：kebab-case 4) 静态资源：kebab-case"
-    },
-    {
-      "name": "Variable Naming | 变量命名",
-      "content": "Variables/functions: camelCase (userList). Constants: UPPER_CASE (MAX_ITEMS). Types/interfaces: PascalCase (UserData). | 变量/函数：camelCase (userList)，常量：UPPER_CASE (MAX_ITEMS)，类型/接口：PascalCase (UserData)"
+      "name": "Ant Design as Scaffold | Ant Design为基座",
+      "content": "MUST use Ant Design components as foundation. Customizations only through config providers or theme variables. | 必须使用Ant Design组件作为基础，定制仅通过ConfigProvider或主题变量"
     }
   ],
-  "preferences": {
-    "project_structure": {
-      "views": {
-        "pattern": "{feature-name}/index.vue",
-        "example": "views/user-management/index.vue",
-        "forbidden": ["UserManagement.vue", "userManagement.vue"]
+  "directory_specs": {
+    "src/": {
+      "assets": {
+        "type": "Static resources | 静态资源",
+        "structure": {
+          "images/": "kebab-case.{png,svg,webp} (max 500KB)",
+          "fonts/": "{family}-{weight}.{ttf,woff2}",
+          "styles/": ["ant-theme.less", "global.less"]
+        },
+        "rules": [
+          "No component-specific assets here",
+          "SVGs must be optimized"
+        ]
       },
       "components": {
-        "pattern": "{feature-name}/{ComponentName}.vue",
-        "example": "components/data-table/DataTable.vue",
-        "required_siblings": ["utils.ts", "types.ts"]
+        "type": "Reusable UI components | 可复用UI组件",
+        "pattern": "{kebab-case}/{PascalCase}.vue",
+        "antd_rules": [
+          "Extend AntD components with <a-button v-bind=\"$attrs\">",
+          "Override styles via CSS vars: var(--ant-primary-color)"
+        ],
+        "example": "components/data-table/DataTable.vue"
+      },
+      "views": {
+        "type": "Route components | 路由组件",
+        "pattern": "{kebab-case}/index.vue",
+        "layout_requirements": [
+          "Root element: <a-layout>",
+          "Header: <a-layout-header>",
+          "Content: <a-layout-content>"
+        ],
+        "example": "views/user-management/index.vue"
+      },
+      "stores": {
+        "type": "Pinia state | 状态管理",
+        "structure": {
+          "modules/": "feature stores",
+          "shared.ts": "Cross-module state"
+        },
+        "naming": "kebab-case.ts",
+        "example": "stores/modules/user-profile.ts"
+      },
+      "router": {
+        "type": "Routing | 路由配置",
+        "files": [
+          "index.ts (main router)",
+          "routes/ (split by feature)",
+          "guards/ (navigation guards)"
+        ],
+        "lazy_loading": "() => import('@/views/{kebab-case}/index.vue')"
+      },
+      "i18n": {
+        "type": "Localization | 国际化",
+        "structure": {
+          "locales/": {
+            "en-US.json": "English",
+            "zh-CN.json": "中文"
+          },
+          "antd-locales/": "Ant Design language packs"
+        },
+        "rules": [
+          "Keys must follow path.to.key format",
+          "Sync with AntD locale provider"
+        ]
+      },
+      "filters": {
+        "type": "Vue filters | 过滤器",
+        "naming": "kebab-case.ts",
+        "registration": "main.ts中全局注册",
+        "example": "filters/currency-format.ts"
       },
       "utils": {
-        "pattern": "kebab-case.ts",
-        "example": "use-format-date.ts"
-      }
-    },
-    "naming_conventions": {
-      "case_matrix": {
-        "folders": "kebab-case",
-        "vue_files": "PascalCase",
-        "route_entries": "index.vue (fixed)",
-        "test_files": "{component}.spec.ts",
-        "asset_files": "kebab-case"
+        "type": "Utility functions | 工具函数",
+        "categories": [
+          "date/",
+          "string/",
+          "dom/"
+        ],
+        "naming": "kebab-case.ts",
+        "example": "utils/date/format-date.ts"
       },
-      "special_rules": [
-        "Never repeat component name in folder (Bad: components/UserCard/UserCard.vue)",
-        "Route parameters must reflect in folder names: views/user/[id]/index.vue"
+      "common": {
+        "type": "Constants & enums | 常量枚举",
+        "files": {
+          "constants.ts": "APP_MAX_WIDTH = 1200",
+          "enums.ts": "enum UserRole { ADMIN = 'admin' }",
+          "antd-defaults.ts": "AntD component default props"
+        },
+        "rules": [
+          "Constants: UPPER_SNAKE_CASE",
+          "Enums: PascalCase"
+        ]
+      }
+    }
+  },
+  "antd_integration": {
+    "mandatory": {
+      "app_level": [
+        "<a-config-provider> in App.vue",
+        "Locale sync with i18n"
+      ],
+      "component_level": [
+        "Forms: <a-form> + <a-form-item>",
+        "Tables: <a-table> only",
+        "Buttons: <a-button> only"
+      ]
+    },
+    "theme": {
+      "config_file": "assets/styles/ant-theme.less",
+      "required_vars": [
+        "@primary-color",
+        "@border-radius-base",
+        "@font-family"
+      ],
+      "prohibited": [
+        "!important overrides",
+        "Direct component style modifications"
+      ]
+    },
+    "prohibited_alternatives": {
+      "native": ["<input>", "<select>", "<table>"],
+      "custom": ["<MyButton> (must extend <a-button>)"]
+    }
+  },
+  "code_templates": {
+    "antd_view": {
+      "path": "views/example/index.vue",
+      "content": "<template>\n  <a-layout>\n    <a-layout-header>\n      <h1>{{ $t('page.title') }}</h1>\n    </a-layout-header>\n    <a-layout-content>\n      <a-table :dataSource=\"data\" />\n    </a-layout-content>\n  </a-layout>\n</template>"
+    },
+    "antd_component": {
+      "path": "components/action-button/ActionButton.vue",
+      "content": "<template>\n  <a-button \n    type=\"primary\" \n    :loading=\"props.loading\"\n    v-bind=\"$attrs\"\n  >\n    <slot>{{ $t('button.default') }}</slot>\n  </a-button>\n</template>"
+    }
+  },
+  "validation": {
+    "auto_fix": [
+      "Directory names to kebab-case",
+      "Vue filenames to PascalCase"
+    ],
+    "manual_review": [
+      "Ant Design component usage",
+      "Theme variable consistency"
+    ],
+    "error_levels": {
+      "FATAL": [
+        "Native HTML form elements",
+        "Missing a-config-provider"
+      ],
+      "WARNING": [
+        "Custom colors not using theme vars",
+        "Direct component style overrides"
       ]
     }
   },
-  "examples": {
-    "route_component": {
-      "description": "Correct route component structure | 正确的路由组件结构",
-      "content": "// File path: src/views/user-profile/index.vue\n<template>\n  <div>\n    <UserHeader />\n    <!-- Route content -->\n  </div>\n</template>\n\n<script setup lang=\"ts\">\n// Always use named imports for children (English) | 子组件始终使用命名导入(中文)\nimport UserHeader from '@/components/user-header/UserHeader.vue'\n</script>"
-    },
-    "regular_component": {
-      "description": "Correct regular component structure | 正确的普通组件结构",
-      "content": "// File path: src/components/data-table/DataTable.vue\n<template>\n  <a-table :columns=\"columns\" />\n</template>\n\n<script setup lang=\"ts\">\n// Type definition adjacent to component (English) | 类型定义与组件相邻(中文)\ninterface TableColumn {\n  key: string\n  title: string\n}\n\nconst columns = ref<TableColumn[]>([])\n</script>"
-    },
-    "forbidden_patterns": {
-      "description": "Prohibited naming examples | 禁止的命名示例",
-      "content": [
-        "// 错误1: 路由组件直接使用PascalCase\nsrc/views/UserProfile.vue",
-        "// 错误2: 普通组件重复名称\nsrc/components/DataTable/DataTableComponent.vue",
-        "// 错误3: 工具函数使用PascalCase\nsrc/utils/DateFormat.ts"
-      ]
-    }
-    ],
-    "prompts": {
-      "generate_route": "Create a route component in views/{kebab-name}/index.vue with: 1) Route params handling 2) Layout skeleton 3) Lazy loading | 在views/{kebab-name}/index.vue创建路由组件，需包含：1) 路由参数处理 2) 布局骨架 3) 懒加载",
-      "generate_component": "Create a component in components/{kebab-name}/{PascalName}.vue with: 1) Typed props 2) Composition API 3) Associated types file | 在components/{kebab-name}/{PascalName}.vue创建组件，需包含：1) 类型化props 2) 组合式API 3) 关联的类型文件"
-    },
-    "validation_rules": {
-      "auto_fixable": [
-        "Folder names must be kebab-case",
-        "Vue component files must be PascalCase"
-      ],
-      "requires_manual_check": [
-        "Route component must be index.vue",
-        "No duplicate naming in component folders"
-      ]
-    }
+  "bilingual_policy": {
+    "comments": "EN first then ZH: // Format date | 日期格式化",
+    "i18n_keys": "path.to.key structure",
+    "error_messages": "Both languages required"
   }
+}
